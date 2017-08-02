@@ -1,4 +1,3 @@
-
 import Foundation
 import SystemConfiguration
 import ReactiveSwift
@@ -9,29 +8,35 @@ public enum ReachabilityStatus {
         case wiFi, cellular
     }
     
-    case unreachable, reachable(ReachableType)
+    case unreachable, reachable(type: ReachableType)
+    
+    public var isReachable: Bool {
+        if case .reachable(_) = self {
+            return true
+        }
+        return false
+    }
 }
 
 private extension Reachability.NetworkStatus {
     func toReachabilityStatus() -> ReachabilityStatus {
         switch self {
-        case .reachableViaWiFi: return .reachable(.wiFi)
-        case .reachableViaWWAN: return .reachable(.cellular)
+        case .reachableViaWiFi: return .reachable(type: .wiFi)
+        case .reachableViaWWAN: return .reachable(type: .cellular)
         case .notReachable: return .unreachable
         }
     }
 }
 
 public class ReachabilityController {
+
     public let signal: Signal<ReachabilityStatus, NoError>
+    public let reachable: Property<Bool>
 
     public var currentStatus: ReachabilityStatus {
         return self.reachability.currentReachabilityStatus.toReachabilityStatus()
     }
-    
-    public let reachable: Property<Bool>
 
-    
     public var isReachable: Bool {
         if case .reachable(_) = currentStatus {
             return true
@@ -40,26 +45,22 @@ public class ReachabilityController {
         }
     }
     
-    private let observer: (Observer<ReachabilityStatus, NoError>)
+    private let observer: Signal<ReachabilityStatus, NoError>.Observer
     private let reachability: Reachability
     
     public init() {
-        reachability = try! Reachability.reachabilityForInternetConnection()
         (signal, observer) = Signal<ReachabilityStatus, NoError>.pipe()
         
-        reachable = Property<Bool>(initial: reachability.isReachable(), then: signal.map {
-            if case .reachable = $0 {
-                return true
-            }
-            return false
-        }.skipRepeats())
+        reachability = try! Reachability.reachabilityForInternetConnection()
+        reachable = Property<Bool>(initial: reachability.isReachable(),
+                                   then: signal.map { $0.isReachable }.skipRepeats())
         
         reachability.whenReachable = { [unowned self] r in
             let status: ReachabilityStatus
             if r.isReachableViaWiFi() {
-                status = ReachabilityStatus.reachable(.wiFi)
+                status = ReachabilityStatus.reachable(type: .wiFi)
             } else {
-                status = ReachabilityStatus.reachable(.cellular)
+                status = ReachabilityStatus.reachable(type: .cellular)
             }
             self.observer.send(value: status)
         }
@@ -68,7 +69,6 @@ public class ReachabilityController {
             let status = ReachabilityStatus.unreachable
             self.observer.send(value: status)
         }
-        
         
         try! reachability.startNotifier()
     }
