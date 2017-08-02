@@ -21,8 +21,6 @@
 		254FC0511C7E0D4E005546BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254FC06B1C7E0DCF005546BC /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		254FC06C1C7E0DCF005546BC /* ReachablityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachablityController.swift; sourceTree = "<group>"; };
-		254FC0921C7E1D03005546BC /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = ../Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
-		254FC0931C7E1D03005546BC /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = ../Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		F2F0537C1DDB536E00F4CB45 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		F2F0537D1DDB536E00F4CB45 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		F2F0537E1DDB536E00F4CB45 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -45,8 +43,6 @@
 		254FC0421C7E0D4D005546BC = {
 			isa = PBXGroup;
 			children = (
-				254FC0921C7E1D03005546BC /* ReactiveCocoa.framework */,
-				254FC0931C7E1D03005546BC /* Result.framework */,
 				254FC04E1C7E0D4E005546BC /* Reachability */,
 				254FC04D1C7E0D4E005546BC /* Products */,
 				F2F0537B1DDB536E00F4CB45 /* Frameworks */,
